@@ -229,20 +229,6 @@ class Field:
                     new_data.append(val)
             sensor_data[data_field] = new_data
 
-
-    # def is_winning_condition(self):
-    #     if self.is_pod_required_to_win and self.target_pod_id != '':
-    #         target_pod_coords = self.pod_locations_map[self.target_pod_id]
-    #         target_state = target_pod_coords
-    #     else:
-    #         player_state = self.drive_states_map[self.player_id]
-    #         target_state = [player_state.x, player_state.y]
-
-    #     if target_state[0] == self.goal_coords[0] and target_state[1] == self.goal_coords[1]:
-    #         return True
-    #     else:
-    #         return False
-
     def is_winning_condition(self):
         if self.is_pod_required_to_win and self.target_pod_id != '':
             target_pod_coords = self.pod_locations_map[self.target_pod_id]
