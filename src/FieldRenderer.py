@@ -69,9 +69,9 @@ class FieldRenderer:
             outline_surface = pygame.Surface((GRID_BLOCK_DIMENSIONS[0], GRID_BLOCK_DIMENSIONS[1]), pygame.SRCALPHA, 32)
             pygame.draw.rect(outline_surface, RED, pygame.Rect(0, 0, GRID_BLOCK_DIMENSIONS[0], GRID_BLOCK_DIMENSIONS[1]), 2)
             self.game_window.blit(outline_surface, (x*GRID_BLOCK_DIMENSIONS[0], y*GRID_BLOCK_DIMENSIONS[1]))
-
-        # draw goal
-        if self.field.field_grid[x][y].is_goal:
+            
+        # Draw all goal locations
+        if [x, y] in self.field.goal_coords_list:
             pygame.draw.circle(self.game_window, GREEN, (x*GRID_BLOCK_DIMENSIONS[0]+GRID_BLOCK_DIMENSIONS[0]//2, y*GRID_BLOCK_DIMENSIONS[1]+GRID_BLOCK_DIMENSIONS[1]//2), GRID_BLOCK_DIMENSIONS[1]//4)
 
         if self.field.field_grid[x][y].is_crash:

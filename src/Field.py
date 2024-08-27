@@ -24,32 +24,36 @@ class Field:
         self.drive_states_map = {} # key = drive object ID, val = DriveState object for drive
         self.pod_locations_map = {} # key = pod object ID, val = [x, y] coords of pod
         self.drive_to_game_id_map = {} # key = drive object ID, val = assigned game id
-        self.goal_coords = [-1, -1]
         self.player_id = ''
         self.target_pod_id = ''
         self.can_ai_lift_target_pod = False
         self.field_boundary_coords = self.build_list_of_field_boundaries()
         self.sensor_range = -1
 
+        self.goal_coords_list = []
+
+
     def set_sensor_range(self, sensor_range):
         self.sensor_range = sensor_range
 
     def spawn_goal(self):
-        x = random.randint(0, len(self.field_grid) - 1)
-        y = random.randint(0, len(self.field_grid[0]) - 1)
-        self.field_grid[x][y].is_goal = True
-        self.goal_coords = [x, y]
+        num_goals = random.randint(2, 5)  # Spawn between 2 and 5 goals
+        for _ in range(num_goals):
+            x = random.randint(0, len(self.field_grid) - 1)
+            y = random.randint(0, len(self.field_grid[0]) - 1)
+            self.field_grid[x][y].is_goal = True
+            self.goal_coords_list.append([x, y])
 
     def spawn_player(self, player, player_id):
-        if self.goal_coords[0] == -1:
-            raise Exception('Goal does not exist, cannot decide spawn location for player. Call Field.spawn_goalbefore Field.spawn_player')
+        if not self.goal_coords_list:
+            raise Exception('No goals exist, cannot decide spawn location for player. Call Field.spawn_goal before Field.spawn_player')
         field_x = len(self.field_grid) - 1
         field_y = len(self.field_grid[0]) - 1
         x = random.randint(field_x // 4, 3 * field_x // 4)
         y = random.randint(field_y // 4, 3 * field_y // 4)
-        while manhattan_dist_2D([x, y], self.goal_coords) < MIN_GOAL_DIST: 
-            y = random.randint(0, len(self.field_grid[0])-1)
-            x = random.randint(0, len(self.field_grid)-1)
+        while any(manhattan_dist_2D([x, y], goal_coords) < MIN_GOAL_DIST for goal_coords in self.goal_coords_list):
+            y = random.randint(0, len(self.field_grid[0]) - 1)
+            x = random.randint(0, len(self.field_grid) - 1)
         self.field_grid[x][y].drive = player
         self.drive_states_map[str(player)] = DriveState(x=x, y=y)
         self.player_id = str(player)
@@ -179,7 +183,9 @@ class Field:
             SensorData.POD_LOCATIONS: [],
             SensorData.DRIVE_LIFTED_POD_PAIRS: self.build_drive_lifted_pod_pairs(),
             SensorData.PLAYER_LOCATION: [],
-            SensorData.GOAL_LOCATION: self.goal_coords,
+            # SensorData.GOAL_LOCATION: self.goal_coords,
+            SensorData.GOAL_LOCATIONS: self.goal_coords_list,
+            # SensorData.GOAL_LOCATION: self.goal_coords, 
             SensorData.TARGET_POD_LOCATION: self.get_target_pod_info()
         }
 
@@ -224,6 +230,19 @@ class Field:
             sensor_data[data_field] = new_data
 
 
+    # def is_winning_condition(self):
+    #     if self.is_pod_required_to_win and self.target_pod_id != '':
+    #         target_pod_coords = self.pod_locations_map[self.target_pod_id]
+    #         target_state = target_pod_coords
+    #     else:
+    #         player_state = self.drive_states_map[self.player_id]
+    #         target_state = [player_state.x, player_state.y]
+
+    #     if target_state[0] == self.goal_coords[0] and target_state[1] == self.goal_coords[1]:
+    #         return True
+    #     else:
+    #         return False
+
     def is_winning_condition(self):
         if self.is_pod_required_to_win and self.target_pod_id != '':
             target_pod_coords = self.pod_locations_map[self.target_pod_id]
@@ -232,10 +251,12 @@ class Field:
             player_state = self.drive_states_map[self.player_id]
             target_state = [player_state.x, player_state.y]
 
-        if target_state[0] == self.goal_coords[0] and target_state[1] == self.goal_coords[1]:
-            return True
-        else:
-            return False
+        # Check if the target state matches any of the goal coordinates
+        for goal_coords in self.goal_coords_list:
+            if target_state[0] == goal_coords[0] and target_state[1] == goal_coords[1]:
+                return True
+
+        return False
 
 
     def build_list_of_field_boundaries(self):
