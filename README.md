@@ -18,7 +18,7 @@ line by running `python3 main.py`.
 2. Download the game source code
    - Command line:
      - Make a new directory
-     - `git clone https://github.com/nickhumm-amzn/AR_Day_Activity.git`
+     - `git clone https://github.com/sam-zlota/AR_Day_Activity.git`
    - Browser:
      - Open https://github.com/nickhumm-amzn/AR_Day_Activity
      - Click the “<> Code” button dropdown menu and select ”Download ZIP”
