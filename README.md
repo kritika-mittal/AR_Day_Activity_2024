@@ -7,7 +7,7 @@ to code the brain of a robot in the form of an Agent class to navigate a robot t
 advanced mode, pick up a Pod object and carry that to the goal.
 
 The game is intended to only have the player's agent class modified. This can be accomplished by creating a new file 
-or editing the provided YourAgent.py file in src/ and adding the Python module and class name to the 
+or editing the provided `YourAgent.py` file in src/ and adding the Python module and class name to the 
 player_agents_list.txt file in the top level directory of the project. The game can then be run from the command 
 line by running `python3 main.py`.
 
