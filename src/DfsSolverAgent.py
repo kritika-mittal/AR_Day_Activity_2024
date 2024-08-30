@@ -22,8 +22,8 @@ class DfsSolverAgent(DriveInterface):
                 # Advanced mode - Need to find the target pod and bring it to the goal
                 raise Exception('Advanced mode solver not implemented yet for DfsSolverAgent')
             else:
-                # TODO Have the students implement a function for DFS Agent to pick the best goal
-                self.dfs_solve_path_to_goal(sensor_data, sensor_data[SensorData.GOAL_LOCATIONS[0]])
+                # This example uses the first goal location in the list.
+                self.dfs_solve_path_to_goal(sensor_data, sensor_data[SensorData.GOAL_LOCATIONS][0])
 
         next_move, next_state = self.get_move_for_next_state_in_path()
         if self.will_next_state_collide(next_state, sensor_data):
@@ -55,9 +55,8 @@ class DfsSolverAgent(DriveInterface):
         # Stores solved path as a list of DriveState(s) in the self.path variable
         start_state = sensor_data[SensorData.PLAYER_LOCATION]
 
-        new_states = [DriveState(x=start_state[0], y=start_state[1])]
         visited_states = set([])
-        paths = [[new_states[0]]]
+        paths = [[DriveState(x=start_state[0], y=start_state[1])]]
 
         while len(paths) > 0:
             current_path = paths.pop(len(paths)-1)

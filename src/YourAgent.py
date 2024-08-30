@@ -48,42 +48,4 @@ class YourAgent(DriveInterface):
             DriveMove.LIFT_POD – If a pod is in the same tile, pick it up. The pod will now move with the drive until it is dropped
             DriveMove.DROP_POD – If a pod is in the same tile, drop it. The pod will now stay in this position until it is picked up
         """
-        # Access the list of goal locations
-        goal_locations = sensor_data[SensorData.GOAL_LOCATIONS]
-
-        # Implement your strategy to choose the best goal location
-        best_goal = self.choose_best_goal_location(goal_locations, sensor_data)
-
-        # Modify your pathfinding or decision-making process to navigate towards the chosen best goal
-        next_move = self.navigate_to_goal(best_goal, sensor_data)
-
-        return next_move
-
-    def choose_best_goal_location(self, goal_locations, sensor_data):
-        """
-        Implement your strategy to evaluate and choose the best goal location.
-        This could involve calculating distances, considering obstacles, or using other heuristics.
-        """
-        # For simplicity, let's choose the goal location closest to the player's current location
-        player_location = sensor_data[SensorData.PLAYER_LOCATION]
-        closest_goal = min(goal_locations, key=lambda goal: manhattan_dist_2D(player_location, goal))
-        return closest_goal
-
-    def navigate_to_goal(self, goal, sensor_data):
-        """
-        Implement your pathfinding or decision-making process to navigate towards the chosen goal.
-        This could involve using algorithms like BFS, Dijkstra's, or A*.
-        """
-        # For simplicity, let's move in the direction that reduces the Manhattan distance to the goal
-        player_location = sensor_data[SensorData.PLAYER_LOCATION]
-        dx = goal[0] - player_location[0]
-        dy = goal[1] - player_location[1]
-
-        if dx > 0:
-            return DriveMove.RIGHT
-        elif dx < 0:
-            return DriveMove.LEFT
-        elif dy > 0:
-            return DriveMove.UP
-        else:
-            return DriveMove.DOWN
+        pass

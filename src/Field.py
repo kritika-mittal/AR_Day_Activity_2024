@@ -74,7 +74,7 @@ class Field:
         field_y = len(self.field_grid[0]) - 1
         x = random.randint(field_x // 4, 3 * field_x // 4)
         y = random.randint(field_y // 4, 3 * field_y // 4)
-        while manhattan_dist_2D([x, y], self.goal_coords) < MIN_GOAL_DIST: 
+        while any(manhattan_dist_2D([x, y], goal_coords) < MIN_GOAL_DIST for goal_coords in self.goal_coords_list):
             y = random.randint(0, len(self.field_grid[0])-1)
             x = random.randint(0, len(self.field_grid)-1)
 
