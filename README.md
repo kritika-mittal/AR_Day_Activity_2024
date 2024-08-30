@@ -20,7 +20,7 @@ line by running `python3 main.py`.
      - Make a new directory
      - `git clone https://github.com/sam-zlota/AR_Day_Activity.git`
    - Browser:
-     - Open https://github.com/nickhumm-amzn/AR_Day_Activity
+     - Open https://github.com/sam-zlota/AR_Day_Activity
      - Click the “<> Code” button dropdown menu and select ”Download ZIP”
      - Extract the ZIP into a new directory
 3. Install requirements:
